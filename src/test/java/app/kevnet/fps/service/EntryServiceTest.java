@@ -22,23 +22,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class EntryServiceTest {
 
-  @TestConfiguration
-  static class EntryServiceTestContextConfiguration {
-
-    @Bean
-    public IEntryService entryService() {
-      return new EntryService();
-    }
-  }
-
   private Entry entry;
-
   @Autowired
   private EntryService entryService;
-
   @MockBean
   private EntryRepository entryRepository;
-
   @MockBean
   private ReportRepository reportRepository;
 
@@ -49,7 +37,8 @@ public class EntryServiceTest {
 
   @Test
   public void testFindById() {
-    Mockito.when(entryRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(entry));
+    Mockito.when(entryRepository.findById(Mockito.anyLong()))
+        .thenReturn(Optional.of(entry));
     Entry result = entryService.findById(Mockito.anyLong());
     Assert.assertEquals(entry, result);
   }
@@ -76,10 +65,12 @@ public class EntryServiceTest {
   @Test
   public void testFindByReportId() {
     Report report = TestUtil.getReport();
-    Mockito.when(reportRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(report));
+    Mockito.when(reportRepository.findById(Mockito.anyLong()))
+        .thenReturn(Optional.of(report));
 
     List<Entry> expected = Collections.singletonList(entry);
-    Mockito.when(entryRepository.findByReportId(Mockito.anyLong())).thenReturn(expected);
+    Mockito.when(entryRepository.findByReportId(Mockito.anyLong()))
+        .thenReturn(expected);
     List<Entry> actual = entryService.findByReportId(Mockito.anyLong());
     Assert.assertEquals(expected, actual);
   }
@@ -89,5 +80,14 @@ public class EntryServiceTest {
     Mockito.when(reportRepository.findById(Mockito.anyLong())).thenReturn(null);
     List<Entry> result = entryService.findByReportId(Mockito.anyLong());
     Assert.assertNull(result);
+  }
+
+  @TestConfiguration
+  static class EntryServiceTestContextConfiguration {
+
+    @Bean
+    public IEntryService entryService() {
+      return new EntryService();
+    }
   }
 }

@@ -3,6 +3,7 @@ package app.kevnet.fps.bean;
 import java.util.Date;
 
 public class ErrorDetails {
+
   private Date timestamp;
   private String details;
 

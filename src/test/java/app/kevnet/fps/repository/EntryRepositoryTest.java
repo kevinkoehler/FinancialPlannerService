@@ -2,12 +2,8 @@ package app.kevnet.fps.repository;
 
 import app.kevnet.fps.bean.Entry;
 import app.kevnet.fps.bean.Report;
-import app.kevnet.fps.type.EntryType;
-import app.kevnet.fps.type.Frequency;
 import app.kevnet.fps.util.TestUtil;
-import java.math.BigDecimal;
 import java.util.List;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +45,7 @@ public class EntryRepositoryTest {
 
     List<Entry> retrievedEntries = entryRepository.findByReportId(reportId);
     Assert.assertTrue(retrievedEntries != null && !retrievedEntries.isEmpty());
-    Assert.assertEquals(1, retrievedEntries.size() );
+    Assert.assertEquals(1, retrievedEntries.size());
     Assert.assertEquals(savedEntry, retrievedEntries.get(0));
   }
 }

@@ -142,8 +142,10 @@ public class ReportControllerTest {
   @Test
   public void testGetEntriesByReportId() throws Exception {
     Entry entry = TestUtil.getEntry();
-    Mockito.when(entryService.findByReportId(ID)).thenReturn(Collections.singletonList(entry));
-    ResultActions result = mvc.perform(MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
+    Mockito.when(entryService.findByReportId(ID))
+        .thenReturn(Collections.singletonList(entry));
+    ResultActions result = mvc.perform(
+        MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
     compareEntryArray(result, entry);
@@ -152,14 +154,17 @@ public class ReportControllerTest {
   @Test
   public void testGetEntriesByReportIdNull() throws Exception {
     Mockito.when(entryService.findByReportId(ID)).thenReturn(null);
-    ResultActions result = mvc.perform(MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
+    ResultActions result = mvc.perform(
+        MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   @Test
   public void testGetEntriesByReportIdEmpty() throws Exception {
-    Mockito.when(entryService.findByReportId(ID)).thenReturn(Collections.EMPTY_LIST);
-    ResultActions result = mvc.perform(MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
+    Mockito.when(entryService.findByReportId(ID))
+        .thenReturn(Collections.EMPTY_LIST);
+    ResultActions result = mvc.perform(
+        MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
         .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
 

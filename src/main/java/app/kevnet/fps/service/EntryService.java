@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 public class EntryService implements IEntryService {
 
   @Autowired
-  private EntryRepository entryRepository;
-
-  @Autowired
   ReportRepository reportRepository;
+  @Autowired
+  private EntryRepository entryRepository;
 
   @Override
   public Entry findById(long id) {

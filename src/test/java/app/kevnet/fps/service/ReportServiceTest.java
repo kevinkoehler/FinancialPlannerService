@@ -3,11 +3,9 @@ package app.kevnet.fps.service;
 import app.kevnet.fps.bean.Report;
 import app.kevnet.fps.repository.ReportRepository;
 import app.kevnet.fps.util.TestUtil;
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,20 +20,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class ReportServiceTest {
 
-  @TestConfiguration
-  static class ReportServiceTestContextConfiguration {
-
-    @Bean
-    public IReportService reportService() {
-      return new ReportService();
-    }
-  }
-
   private Report report;
-
   @Autowired
   private ReportService service;
-
   @MockBean
   private ReportRepository repository;
 
@@ -54,7 +41,8 @@ public class ReportServiceTest {
 
   @Test
   public void testFindById() {
-    Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.of(report));
+    Mockito.when(repository.findById(Mockito.anyLong()))
+        .thenReturn(Optional.of(report));
     Report result = service.findById(Mockito.anyLong());
     Assert.assertEquals(report, result);
   }
@@ -76,6 +64,15 @@ public class ReportServiceTest {
   @Test
   public void testDeleteById() {
     service.deleteById(Mockito.anyLong());
+  }
+
+  @TestConfiguration
+  static class ReportServiceTestContextConfiguration {
+
+    @Bean
+    public IReportService reportService() {
+      return new ReportService();
+    }
   }
 
 }
