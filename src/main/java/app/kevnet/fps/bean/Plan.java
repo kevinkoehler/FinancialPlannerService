@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(schema = "financial_planner", name = "report")
-public class Report {
+@Table(schema = "financial_planner", name = "plan")
+public class Plan {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Report {
   @Column(name = "goal_savings", nullable = false)
   private BigDecimal goalSavings;
 
-  public Report(Long id, String name, BigDecimal currentSavings,
+  public Plan(Long id, String name, BigDecimal currentSavings,
       BigDecimal goalSavings) {
     this.id = id;
     this.name = name;
@@ -33,7 +33,7 @@ public class Report {
     this.goalSavings = goalSavings;
   }
 
-  public Report() {
+  public Plan() {
   }
 
   public Long getId() {
@@ -73,24 +73,24 @@ public class Report {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof Report)) {
+    if (!(o instanceof Plan)) {
       return false;
     }
 
-    Report report = (Report) o;
+    Plan plan = (Plan) o;
 
-    if (id != null ? !id.equals(report.id) : report.id != null) {
+    if (id != null ? !id.equals(plan.id) : plan.id != null) {
       return false;
     }
-    if (name != null ? !name.equals(report.name) : report.name != null) {
+    if (name != null ? !name.equals(plan.name) : plan.name != null) {
       return false;
     }
-    if (currentSavings != null ? !currentSavings.equals(report.currentSavings)
-        : report.currentSavings != null) {
+    if (currentSavings != null ? !currentSavings.equals(plan.currentSavings)
+        : plan.currentSavings != null) {
       return false;
     }
-    return goalSavings != null ? goalSavings.equals(report.goalSavings)
-        : report.goalSavings == null;
+    return goalSavings != null ? goalSavings.equals(plan.goalSavings)
+        : plan.goalSavings == null;
   }
 
   @Override

@@ -1,9 +1,9 @@
 package app.kevnet.fps.controller;
 
 import app.kevnet.fps.bean.Entry;
-import app.kevnet.fps.bean.Report;
+import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.service.EntryService;
-import app.kevnet.fps.service.ReportService;
+import app.kevnet.fps.service.PlanService;
 import app.kevnet.fps.util.TestUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
@@ -24,49 +24,49 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ReportController.class)
-public class ReportControllerTest {
+@WebMvcTest(PlanController.class)
+public class PlanControllerTest {
 
-  private static final String REQUEST_MAPPING = "/report";
+  private static final String REQUEST_MAPPING = "/plan";
   private static final long ID = 1L;
 
-  private Report report;
+  private Plan plan;
 
   @Autowired
   private MockMvc mvc;
 
   @MockBean
-  private ReportService reportService;
+  private PlanService planService;
 
   @MockBean
   private EntryService entryService;
 
   @Before
   public void setUp() {
-    report = TestUtil.getReport();
+    plan = TestUtil.getPlan();
   }
 
-  private ResultActions compareReport(ResultActions result) throws Exception {
+  private ResultActions comparePlan(ResultActions result) throws Exception {
     return result.andExpect(MockMvcResultMatchers
-        .jsonPath("$.id", Matchers.is(report.getId())))
+        .jsonPath("$.id", Matchers.is(plan.getId())))
         .andExpect(MockMvcResultMatchers
-            .jsonPath("$.name", Matchers.is(report.getName())))
+            .jsonPath("$.name", Matchers.is(plan.getName())))
         .andExpect(MockMvcResultMatchers.jsonPath("$.currentSavings",
-            Matchers.is(report.getCurrentSavings().intValue())))
+            Matchers.is(plan.getCurrentSavings().intValue())))
         .andExpect(MockMvcResultMatchers.jsonPath("$.goalSavings",
-            Matchers.is(report.getGoalSavings().intValue())));
+            Matchers.is(plan.getGoalSavings().intValue())));
   }
 
-  private ResultActions compareReportArray(ResultActions result)
+  private ResultActions comparePlanArray(ResultActions result)
       throws Exception {
     return result.andExpect(MockMvcResultMatchers
-        .jsonPath("$[0].id", Matchers.is(report.getId())))
+        .jsonPath("$[0].id", Matchers.is(plan.getId())))
         .andExpect(MockMvcResultMatchers
-            .jsonPath("$[0].name", Matchers.is(report.getName())))
+            .jsonPath("$[0].name", Matchers.is(plan.getName())))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].currentSavings",
-            Matchers.is(report.getCurrentSavings().intValue())))
+            Matchers.is(plan.getCurrentSavings().intValue())))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].goalSavings",
-            Matchers.is(report.getGoalSavings().intValue())));
+            Matchers.is(plan.getGoalSavings().intValue())));
   }
 
   private ResultActions compareEntryArray(ResultActions result, Entry entry)
@@ -74,7 +74,7 @@ public class ReportControllerTest {
     return result.andExpect(MockMvcResultMatchers
         .jsonPath("$[0].id", Matchers.is(entry.getId())))
         .andExpect(MockMvcResultMatchers
-            .jsonPath("$[0].reportId", Matchers.is(entry.getReportId())))
+            .jsonPath("$[0].planId", Matchers.is(entry.getPlanId())))
         .andExpect(MockMvcResultMatchers
             .jsonPath("$[0].name", Matchers.is(entry.getName())))
         .andExpect(MockMvcResultMatchers.jsonPath("$[0].amount",
@@ -86,63 +86,63 @@ public class ReportControllerTest {
   }
 
   @Test
-  public void testGetAllReports() throws Exception {
-    List<Report> expected = Collections.singletonList(report);
-    Mockito.when(reportService.findAll()).thenReturn(expected);
+  public void testGetAllPlans() throws Exception {
+    List<Plan> expected = Collections.singletonList(plan);
+    Mockito.when(planService.findAll()).thenReturn(expected);
     ResultActions result = mvc
         .perform(MockMvcRequestBuilders.get(REQUEST_MAPPING))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
-    compareReportArray(result);
+    comparePlanArray(result);
   }
 
   @Test
-  public void testGetAllReportsNull() throws Exception {
-    Mockito.when(reportService.findAll()).thenReturn(Collections.EMPTY_LIST);
+  public void testGetAllPlansNull() throws Exception {
+    Mockito.when(planService.findAll()).thenReturn(Collections.EMPTY_LIST);
     mvc.perform(MockMvcRequestBuilders.get(REQUEST_MAPPING))
         .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
 
   @Test
-  public void testSaveReport() throws Exception {
-    Mockito.when(reportService.save(report)).thenReturn(report);
+  public void testSavePlan() throws Exception {
+    Mockito.when(planService.save(plan)).thenReturn(plan);
     ResultActions result = mvc
         .perform(MockMvcRequestBuilders.post(REQUEST_MAPPING)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(report)))
+            .content(new ObjectMapper().writeValueAsString(plan)))
         .andExpect(MockMvcResultMatchers.status().isOk());
-    compareReport(result);
+    comparePlan(result);
   }
 
   @Test
-  public void testSaveReportNull() throws Exception {
-    Mockito.when(reportService.save(report)).thenReturn(null);
+  public void testSavePlanNull() throws Exception {
+    Mockito.when(planService.save(plan)).thenReturn(null);
     mvc.perform(
-        MockMvcRequestBuilders.put(REQUEST_MAPPING, report)
+        MockMvcRequestBuilders.put(REQUEST_MAPPING, plan)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(report)))
+            .content(new ObjectMapper().writeValueAsString(plan)))
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   @Test
-  public void deleteReport() throws Exception {
-    Mockito.when(reportService.findById(ID))
-        .thenReturn((report));
+  public void deletePlan() throws Exception {
+    Mockito.when(planService.findById(ID))
+        .thenReturn((plan));
     mvc.perform(MockMvcRequestBuilders.delete(REQUEST_MAPPING + "/" + ID))
         .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
 
   @Test
-  public void deleteReportNull() throws Exception {
-    Mockito.when(reportService.findById(ID)).thenReturn(null);
+  public void deletePlanNull() throws Exception {
+    Mockito.when(planService.findById(ID)).thenReturn(null);
     mvc.perform(MockMvcRequestBuilders.delete(REQUEST_MAPPING + "/" + ID))
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   @Test
-  public void testGetEntriesByReportId() throws Exception {
+  public void testGetEntriesByPlanId() throws Exception {
     Entry entry = TestUtil.getEntry();
-    Mockito.when(entryService.findByReportId(ID))
+    Mockito.when(entryService.findByPlanId(ID))
         .thenReturn(Collections.singletonList(entry));
     ResultActions result = mvc.perform(
         MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
@@ -152,16 +152,16 @@ public class ReportControllerTest {
   }
 
   @Test
-  public void testGetEntriesByReportIdNull() throws Exception {
-    Mockito.when(entryService.findByReportId(ID)).thenReturn(null);
+  public void testGetEntriesByPlanIdNull() throws Exception {
+    Mockito.when(entryService.findByPlanId(ID)).thenReturn(null);
     ResultActions result = mvc.perform(
         MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))
         .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 
   @Test
-  public void testGetEntriesByReportIdEmpty() throws Exception {
-    Mockito.when(entryService.findByReportId(ID))
+  public void testGetEntriesByPlanIdEmpty() throws Exception {
+    Mockito.when(entryService.findByPlanId(ID))
         .thenReturn(Collections.EMPTY_LIST);
     ResultActions result = mvc.perform(
         MockMvcRequestBuilders.get(REQUEST_MAPPING + "/" + ID + "/entries"))

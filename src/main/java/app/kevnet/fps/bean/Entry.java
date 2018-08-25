@@ -20,8 +20,8 @@ public class Entry {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "report_id", nullable = false, updatable = false)
-  private Long reportId;
+  @Column(name = "plan_id", nullable = false, updatable = false)
+  private Long planId;
 
   @Column(name = "name", nullable = false)
   private String name;
@@ -37,10 +37,10 @@ public class Entry {
   @Enumerated(value = EnumType.STRING)
   private Frequency frequency;
 
-  public Entry(Long id, Long reportId, String name, BigDecimal amount,
+  public Entry(Long id, Long planId, String name, BigDecimal amount,
       EntryType type, Frequency frequency) {
     this.id = id;
-    this.reportId = reportId;
+    this.planId = planId;
     this.name = name;
     this.amount = amount;
     this.type = type;
@@ -58,12 +58,12 @@ public class Entry {
     this.id = id;
   }
 
-  public Long getReportId() {
-    return reportId;
+  public Long getPlanId() {
+    return planId;
   }
 
-  public void setReportId(Long reportId) {
-    this.reportId = reportId;
+  public void setPlanId(Long planId) {
+    this.planId = planId;
   }
 
   public String getName() {
@@ -112,8 +112,8 @@ public class Entry {
     if (id != null ? !id.equals(entry.id) : entry.id != null) {
       return false;
     }
-    if (reportId != null ? !reportId.equals(entry.reportId)
-        : entry.reportId != null) {
+    if (planId != null ? !planId.equals(entry.planId)
+        : entry.planId != null) {
       return false;
     }
     if (name != null ? !name.equals(entry.name) : entry.name != null) {
@@ -131,7 +131,7 @@ public class Entry {
   @Override
   public int hashCode() {
     int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (reportId != null ? reportId.hashCode() : 0);
+    result = 31 * result + (planId != null ? planId.hashCode() : 0);
     result = 31 * result + (name != null ? name.hashCode() : 0);
     result = 31 * result + (amount != null ? amount.hashCode() : 0);
     result = 31 * result + (type != null ? type.hashCode() : 0);

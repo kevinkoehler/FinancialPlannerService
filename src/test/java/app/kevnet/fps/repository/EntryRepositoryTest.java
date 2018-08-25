@@ -1,7 +1,7 @@
 package app.kevnet.fps.repository;
 
 import app.kevnet.fps.bean.Entry;
-import app.kevnet.fps.bean.Report;
+import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.util.TestUtil;
 import java.util.List;
 import org.junit.Assert;
@@ -23,27 +23,27 @@ public class EntryRepositoryTest {
   private TestEntityManager entityManager;
 
   @Autowired
-  private ReportRepository reportRepository;
+  private PlanRepository planRepository;
 
   @Autowired
   private EntryRepository entryRepository;
 
   @Test
-  public void testFindByReportId() {
-    Report report = TestUtil.getReport();
-    Report savedReport = entityManager.persist(report);
-    Assert.assertNotNull(report);
-    Long reportId = savedReport.getId();
-    Assert.assertTrue(reportId != null && reportId > 0L);
+  public void testFindByPlanId() {
+    Plan plan = TestUtil.getPlan();
+    Plan savedPlan = entityManager.persist(plan);
+    Assert.assertNotNull(plan);
+    Long planId = savedPlan.getId();
+    Assert.assertTrue(planId != null && planId > 0L);
 
     Entry entry = TestUtil.getEntry();
-    entry.setReportId(reportId);
+    entry.setPlanId(planId);
     Entry savedEntry = entityManager.persist(entry);
     Assert.assertNotNull(savedEntry);
     Long entryId = savedEntry.getId();
     Assert.assertTrue(entryId != null && entryId > 0L);
 
-    List<Entry> retrievedEntries = entryRepository.findByReportId(reportId);
+    List<Entry> retrievedEntries = entryRepository.findByPlanId(planId);
     Assert.assertTrue(retrievedEntries != null && !retrievedEntries.isEmpty());
     Assert.assertEquals(1, retrievedEntries.size());
     Assert.assertEquals(savedEntry, retrievedEntries.get(0));

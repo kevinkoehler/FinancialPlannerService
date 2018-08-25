@@ -11,6 +11,6 @@ public interface IEntryService {
 
   void deleteById(long id);
 
-  List<Entry> findByReportId(long reportId);
+  List<Entry> findByPlanId(long planId);
 
 }

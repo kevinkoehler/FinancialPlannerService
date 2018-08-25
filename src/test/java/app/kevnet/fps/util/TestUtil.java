@@ -1,7 +1,7 @@
 package app.kevnet.fps.util;
 
 import app.kevnet.fps.bean.Entry;
-import app.kevnet.fps.bean.Report;
+import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.type.EntryType;
 import app.kevnet.fps.type.Frequency;
 import java.math.BigDecimal;
@@ -11,8 +11,8 @@ public class TestUtil {
 
   private static final String NAME = "Test Name";
 
-  public static Report getReport() {
-    return new Report(null, NAME,
+  public static Plan getPlan() {
+    return new Plan(null, NAME,
         new BigDecimal(RandomUtils.nextInt()),
         new BigDecimal(RandomUtils.nextInt()));
   }

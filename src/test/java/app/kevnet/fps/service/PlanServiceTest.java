@@ -1,7 +1,7 @@
 package app.kevnet.fps.service;
 
-import app.kevnet.fps.bean.Report;
-import app.kevnet.fps.repository.ReportRepository;
+import app.kevnet.fps.bean.Plan;
+import app.kevnet.fps.repository.PlanRepository;
 import app.kevnet.fps.util.TestUtil;
 import java.util.Collections;
 import java.util.List;
@@ -18,47 +18,47 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-public class ReportServiceTest {
+public class PlanServiceTest {
 
-  private Report report;
+  private Plan plan;
   @Autowired
-  private ReportService service;
+  private PlanService service;
   @MockBean
-  private ReportRepository repository;
+  private PlanRepository repository;
 
   @Before
   public void setUp() {
-    report = TestUtil.getReport();
+    plan = TestUtil.getPlan();
   }
 
   @Test
   public void testFindAll() {
-    List<Report> expected = Collections.singletonList(report);
+    List<Plan> expected = Collections.singletonList(plan);
     Mockito.when(repository.findAll()).thenReturn(expected);
-    List<Report> actual = service.findAll();
+    List<Plan> actual = service.findAll();
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void testFindById() {
     Mockito.when(repository.findById(Mockito.anyLong()))
-        .thenReturn(Optional.of(report));
-    Report result = service.findById(Mockito.anyLong());
-    Assert.assertEquals(report, result);
+        .thenReturn(Optional.of(plan));
+    Plan result = service.findById(Mockito.anyLong());
+    Assert.assertEquals(plan, result);
   }
 
   @Test
   public void testFindByIdNull() {
     Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(null);
-    Report result = service.findById(Mockito.anyLong());
+    Plan result = service.findById(Mockito.anyLong());
     Assert.assertNull(result);
   }
 
   @Test
   public void testSave() {
-    Mockito.when(repository.save(report)).thenReturn(report);
-    Report result = service.save(report);
-    Assert.assertEquals(report, result);
+    Mockito.when(repository.save(plan)).thenReturn(plan);
+    Plan result = service.save(plan);
+    Assert.assertEquals(plan, result);
   }
 
   @Test
@@ -67,11 +67,11 @@ public class ReportServiceTest {
   }
 
   @TestConfiguration
-  static class ReportServiceTestContextConfiguration {
+  static class PlanServiceTestContextConfiguration {
 
     @Bean
-    public IReportService reportService() {
-      return new ReportService();
+    public IPlanService planService() {
+      return new PlanService();
     }
   }
 

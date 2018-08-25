@@ -2,14 +2,15 @@ package app.kevnet.fps.controller;
 
 import app.kevnet.fps.bean.Entry;
 import app.kevnet.fps.bean.ErrorDetails;
-import app.kevnet.fps.bean.Report;
+import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.service.IEntryService;
-import app.kevnet.fps.service.IReportService;
+import app.kevnet.fps.service.IPlanService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/report")
-public class ReportController {
+@RequestMapping("/plan")
+public class PlanController {
 
   @Autowired
-  private IReportService reportService;
+  private IPlanService planService;
 
   @Autowired
   private IEntryService entryService;
@@ -39,37 +41,37 @@ public class ReportController {
   }
 
   @GetMapping
-  public ResponseEntity<List<Report>> getAllReports() {
-    List<Report> reports = reportService.findAll();
-    if (reports.isEmpty()) {
+  public ResponseEntity<List<Plan>> getAllPlans() {
+    List<Plan> plans = planService.findAll();
+    if (plans.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    return new ResponseEntity<>(reports, HttpStatus.OK);
+    return new ResponseEntity<>(plans, HttpStatus.OK);
   }
 
   @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
-  public ResponseEntity<Report> saveReport(@RequestBody Report report) {
-    Report savedReport = reportService.save(report);
-    if (savedReport == null) {
+  public ResponseEntity<Plan> savePlan(@RequestBody Plan plan) {
+    Plan savedPlan = planService.save(plan);
+    if (savedPlan == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(savedReport, HttpStatus.OK);
+    return new ResponseEntity<>(savedPlan, HttpStatus.OK);
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<Report> deleteReport(@PathVariable long id) {
-    Report report = reportService.findById(id);
-    if (report == null) {
+  public ResponseEntity<Plan> deletePlan(@PathVariable long id) {
+    Plan plan = planService.findById(id);
+    if (plan == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    reportService.deleteById(id);
+    planService.deleteById(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @GetMapping(value = "/{id}/entries")
-  public ResponseEntity<List<Entry>> getEntriesByReportId(
+  public ResponseEntity<List<Entry>> getEntriesByPlanId(
       @PathVariable long id) {
-    List<Entry> entries = entryService.findByReportId(id);
+    List<Entry> entries = entryService.findByPlanId(id);
     if (entries == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } else if (entries.isEmpty()) {

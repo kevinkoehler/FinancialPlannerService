@@ -1,9 +1,9 @@
 package app.kevnet.fps.service;
 
 import app.kevnet.fps.bean.Entry;
-import app.kevnet.fps.bean.Report;
+import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.repository.EntryRepository;
-import app.kevnet.fps.repository.ReportRepository;
+import app.kevnet.fps.repository.PlanRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class EntryService implements IEntryService {
 
   @Autowired
-  ReportRepository reportRepository;
+  PlanRepository planRepository;
   @Autowired
   private EntryRepository entryRepository;
 
@@ -37,10 +37,10 @@ public class EntryService implements IEntryService {
   }
 
   @Override
-  public List<Entry> findByReportId(long reportId) {
-    Optional<Report> report = reportRepository.findById(reportId);
-    if (report != null && report.isPresent()) {
-      return entryRepository.findByReportId(reportId);
+  public List<Entry> findByPlanId(long planId) {
+    Optional<Plan> plan = planRepository.findById(planId);
+    if (plan != null && plan.isPresent()) {
+      return entryRepository.findByPlanId(planId);
     }
     return null;
   }

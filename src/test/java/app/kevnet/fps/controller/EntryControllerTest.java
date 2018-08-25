@@ -44,7 +44,7 @@ public class EntryControllerTest {
     return result.andExpect(MockMvcResultMatchers
         .jsonPath("$.id", Matchers.is(entry.getId())))
         .andExpect(MockMvcResultMatchers
-            .jsonPath("$.reportId", Matchers.is(entry.getReportId())))
+            .jsonPath("$.planId", Matchers.is(entry.getPlanId())))
         .andExpect(MockMvcResultMatchers
             .jsonPath("$.name", Matchers.is(entry.getName())))
         .andExpect(MockMvcResultMatchers.jsonPath("$.amount",

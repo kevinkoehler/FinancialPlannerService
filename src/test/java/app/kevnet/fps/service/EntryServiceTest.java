@@ -1,9 +1,9 @@
 package app.kevnet.fps.service;
 
 import app.kevnet.fps.bean.Entry;
-import app.kevnet.fps.bean.Report;
+import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.repository.EntryRepository;
-import app.kevnet.fps.repository.ReportRepository;
+import app.kevnet.fps.repository.PlanRepository;
 import app.kevnet.fps.util.TestUtil;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +28,7 @@ public class EntryServiceTest {
   @MockBean
   private EntryRepository entryRepository;
   @MockBean
-  private ReportRepository reportRepository;
+  private PlanRepository planRepository;
 
   @Before
   public void setUp() {
@@ -63,22 +63,22 @@ public class EntryServiceTest {
   }
 
   @Test
-  public void testFindByReportId() {
-    Report report = TestUtil.getReport();
-    Mockito.when(reportRepository.findById(Mockito.anyLong()))
-        .thenReturn(Optional.of(report));
+  public void testFindByPlanId() {
+    Plan plan = TestUtil.getPlan();
+    Mockito.when(planRepository.findById(Mockito.anyLong()))
+        .thenReturn(Optional.of(plan));
 
     List<Entry> expected = Collections.singletonList(entry);
-    Mockito.when(entryRepository.findByReportId(Mockito.anyLong()))
+    Mockito.when(entryRepository.findByPlanId(Mockito.anyLong()))
         .thenReturn(expected);
-    List<Entry> actual = entryService.findByReportId(Mockito.anyLong());
+    List<Entry> actual = entryService.findByPlanId(Mockito.anyLong());
     Assert.assertEquals(expected, actual);
   }
 
   @Test
-  public void testFindByReportIdNull() {
-    Mockito.when(reportRepository.findById(Mockito.anyLong())).thenReturn(null);
-    List<Entry> result = entryService.findByReportId(Mockito.anyLong());
+  public void testFindByPlanIdNull() {
+    Mockito.when(planRepository.findById(Mockito.anyLong())).thenReturn(null);
+    List<Entry> result = entryService.findByPlanId(Mockito.anyLong());
     Assert.assertNull(result);
   }
 
