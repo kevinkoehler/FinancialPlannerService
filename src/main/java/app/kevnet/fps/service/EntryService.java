@@ -40,9 +40,14 @@ public class EntryService implements IEntryService {
   public List<Entry> findByPlanId(long planId) {
     Optional<Plan> plan = planRepository.findById(planId);
     if (plan != null && plan.isPresent()) {
-      return entryRepository.findByPlanId(planId);
+      return entryRepository.findByPlanIdOrderByTypeDescNameAsc(planId);
     }
     return null;
+  }
+
+  @Override
+  public void deleteByPlanId(long planId) {
+    entryRepository.deleteByPlanId(planId);
   }
 
 }

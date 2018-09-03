@@ -4,6 +4,7 @@ import app.kevnet.fps.bean.Entry;
 import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.util.TestUtil;
 import java.util.List;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class EntryRepositoryTest {
   private EntryRepository entryRepository;
 
   @Test
-  public void testFindByPlanId() {
+  public void testFindByPlanIdOrderByTypeDescNameAsc() {
     Plan plan = TestUtil.getPlan();
     Plan savedPlan = entityManager.persist(plan);
     Assert.assertNotNull(plan);
@@ -43,9 +44,30 @@ public class EntryRepositoryTest {
     Long entryId = savedEntry.getId();
     Assert.assertTrue(entryId != null && entryId > 0L);
 
-    List<Entry> retrievedEntries = entryRepository.findByPlanId(planId);
+    List<Entry> retrievedEntries = entryRepository
+        .findByPlanIdOrderByTypeDescNameAsc(planId);
     Assert.assertTrue(retrievedEntries != null && !retrievedEntries.isEmpty());
     Assert.assertEquals(1, retrievedEntries.size());
     Assert.assertEquals(savedEntry, retrievedEntries.get(0));
+  }
+
+  @Test
+  public void testDeleteByPlanId() {
+    Plan plan = TestUtil.getPlan();
+    Plan savedPlan = entityManager.persist(plan);
+    Assert.assertNotNull(plan);
+    Long planId = savedPlan.getId();
+    Assert.assertTrue(planId != null && planId > 0L);
+
+    Entry entry = TestUtil.getEntry();
+    entry.setPlanId(planId);
+    Entry savedEntry = entityManager.persist(entry);
+    Assert.assertNotNull(savedEntry);
+    Long entryId = savedEntry.getId();
+    Assert.assertTrue(entryId != null && entryId > 0L);
+
+    entryRepository.deleteByPlanId(planId);
+    Optional<Entry> deletedEntry = entryRepository.findById(entryId);
+    Assert.assertFalse(deletedEntry.isPresent());
   }
 }

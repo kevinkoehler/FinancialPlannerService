@@ -2,9 +2,12 @@ package app.kevnet.fps.service;
 
 import app.kevnet.fps.bean.Plan;
 import app.kevnet.fps.repository.PlanRepository;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +18,8 @@ public class PlanService implements IPlanService {
 
   @Override
   public List<Plan> findAll() {
-    return (List<Plan>) planRepository.findAll();
+    return (List<Plan>) planRepository
+        .findAll(new Sort(Direction.ASC, Collections.singletonList("name")));
   }
 
   @Override

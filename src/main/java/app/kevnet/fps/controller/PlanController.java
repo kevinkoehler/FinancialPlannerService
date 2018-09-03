@@ -49,6 +49,15 @@ public class PlanController {
     return new ResponseEntity<>(plans, HttpStatus.OK);
   }
 
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<Plan> getPlanById(@PathVariable long id) {
+    Plan plan = planService.findById(id);
+    if (plan == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(plan, HttpStatus.OK);
+  }
+
   @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
   public ResponseEntity<Plan> savePlan(@RequestBody Plan plan) {
     Plan savedPlan = planService.save(plan);
@@ -64,6 +73,7 @@ public class PlanController {
     if (plan == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    entryService.deleteByPlanId(id);
     planService.deleteById(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }

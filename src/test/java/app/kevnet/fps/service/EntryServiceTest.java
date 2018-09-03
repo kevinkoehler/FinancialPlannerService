@@ -69,7 +69,7 @@ public class EntryServiceTest {
         .thenReturn(Optional.of(plan));
 
     List<Entry> expected = Collections.singletonList(entry);
-    Mockito.when(entryRepository.findByPlanId(Mockito.anyLong()))
+    Mockito.when(entryRepository.findByPlanIdOrderByTypeDescNameAsc(Mockito.anyLong()))
         .thenReturn(expected);
     List<Entry> actual = entryService.findByPlanId(Mockito.anyLong());
     Assert.assertEquals(expected, actual);
@@ -80,6 +80,11 @@ public class EntryServiceTest {
     Mockito.when(planRepository.findById(Mockito.anyLong())).thenReturn(null);
     List<Entry> result = entryService.findByPlanId(Mockito.anyLong());
     Assert.assertNull(result);
+  }
+
+  @Test
+  public void testDeleteByPlanId() {
+    entryRepository.deleteByPlanId(Mockito.anyLong());
   }
 
   @TestConfiguration

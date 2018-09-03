@@ -1,7 +1,7 @@
 package app.kevnet.fps.bean;
 
-import app.kevnet.fps.type.EntryType;
-import app.kevnet.fps.type.Frequency;
+import app.kevnet.fps.enums.Frequency;
+import app.kevnet.fps.enums.Type;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,14 +31,14 @@ public class Entry {
 
   @Column(name = "type", nullable = false)
   @Enumerated(value = EnumType.STRING)
-  private EntryType type;
+  private Type type;
 
   @Column(name = "frequency", nullable = false)
   @Enumerated(value = EnumType.STRING)
   private Frequency frequency;
 
   public Entry(Long id, Long planId, String name, BigDecimal amount,
-      EntryType type, Frequency frequency) {
+      Type type, Frequency frequency) {
     this.id = id;
     this.planId = planId;
     this.name = name;
@@ -82,11 +82,11 @@ public class Entry {
     this.amount = amount;
   }
 
-  public EntryType getType() {
+  public Type getType() {
     return type;
   }
 
-  public void setType(EntryType type) {
+  public void setType(Type type) {
     this.type = type;
   }
 

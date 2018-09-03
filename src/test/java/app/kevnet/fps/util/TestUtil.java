@@ -2,8 +2,8 @@ package app.kevnet.fps.util;
 
 import app.kevnet.fps.bean.Entry;
 import app.kevnet.fps.bean.Plan;
-import app.kevnet.fps.type.EntryType;
-import app.kevnet.fps.type.Frequency;
+import app.kevnet.fps.enums.Frequency;
+import app.kevnet.fps.enums.Type;
 import java.math.BigDecimal;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -18,12 +18,12 @@ public class TestUtil {
   }
 
   public static Entry getEntry() {
-    int typeIndex = RandomUtils.nextInt(0, EntryType.values().length);
+    int typeIndex = RandomUtils.nextInt(0, Type.values().length);
     int frequencyIndex = RandomUtils.nextInt(0, Frequency.values().length);
     return new Entry(null, null,
         NAME,
         new BigDecimal(RandomUtils.nextInt()),
-        EntryType.values()[typeIndex], Frequency.values()[frequencyIndex]);
+        Type.values()[typeIndex], Frequency.values()[frequencyIndex]);
   }
 
 }
